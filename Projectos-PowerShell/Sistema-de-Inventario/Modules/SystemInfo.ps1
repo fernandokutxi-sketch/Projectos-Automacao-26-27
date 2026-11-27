@@ -1,10 +1,26 @@
 
-function Get-SystemInfo {
-    try {
-        $Computer = Get-CimInstance - ClassName Win32_ComputerSystem
-        $OS = Get-CimInstance - ClassName Win32_OperatingSystem
-        $BIOS = Get-CimInstance - ClassName Win32_BIOS
 
+function Get-SystemInfo {
+       # Adicionámos [CmdletBinding()], permitindo utilizar funcionalidades avançadas de funções PowerShell.
+    [CmdletBinding()]
+
+      # Adicionámos param() para estruturar correctamente a função.
+    param()
+
+    try {
+        # Informações do computador
+
+        # Utilizámos -ErrorAction Stop para garantir que os erros das operações CIM são encaminhados para o catch.
+
+        $Computer = Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop
+
+        # Informações do sistema operativo
+        $OS = Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Stop
+
+        # Informações da BIOS
+        $BIOS = Get-CimInstance -ClassName Win32_BIOS -ErrorAction Stop
+
+        # Criar objecto personalizado
         [PSCustomObject]@{
             NomeComputador   = $Computer.Name
             Fabricante       = $Computer.Manufacturer
@@ -18,8 +34,8 @@ function Get-SystemInfo {
         }
     }
     catch {
-        Write-Error "Erro ao obter informações do sistema: $_"
+        Write-Error "Erro ao obter informações do sistema: $_.Exception.Message"
     }
-
 }
 
+Get-SystemInfo
