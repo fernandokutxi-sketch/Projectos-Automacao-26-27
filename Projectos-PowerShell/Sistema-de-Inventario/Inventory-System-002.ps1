@@ -88,3 +88,5 @@ catch {
     Write-Host "`nERRO AO EXECUTAR O INVENTARIO!"
     Write-Host $_.Exception.Message
 }
+
+write-host " done"
