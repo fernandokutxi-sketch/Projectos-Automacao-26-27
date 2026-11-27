@@ -89,4 +89,3 @@ catch {
     Write-Host $_.Exception.Message
 }
 
-write-host " done"
